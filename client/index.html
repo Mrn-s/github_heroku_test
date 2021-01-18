@@ -1,0 +1,91 @@
+<!doctype>
+
+<html lang="fr">
+    <head>
+      <meta charset="utf-8">
+      <title>SANT'EFREI</title>
+
+      <link rel="stylesheet" href="/css/style.css">
+      <!-- Load Vue followed by Vue Router -->
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/http-vue-loader/src/httpVueLoader.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/vue-router/dist/vue-router.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+      <!-- BootStrap -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+      <link href="https://cdn.isfidev.net/asalertmessage/v1.0/css/as-alert-message.min.css" rel="stylesheet">
+      <script src="https://cdn.isfidev.net/asalertmessage/v1.0/js/as-alert-message.min.js"></script>
+    </head>
+    <body>
+      <div id="app">
+        <div class="topnav">
+          <router-link class="btn-13 custom-btn-1 nav-link" to='/'> Accueil </router-link>
+          <router-link class="btn-13 custom-btn-1 nav-link" to='/questionnaire'> Questionnaires</router-link>
+          <router-link class="btn-13 custom-btn-1 nav-link" to='/medecins'> Nos médecins </router-link>
+          <router-link class="btn-13 custom-btn-1 nav-link" to='/actualite'> Actualité </router-link>
+          <div class="topnav-right">
+            <router-link v-if="(user_patient.id)" class="btn-13 custom-btn-1 nav-link" to='/mes_rapports'> Mes rapports </router-link>
+            <router-link v-if="(user_medecin.id)" class="btn-13 custom-btn-1 nav-link" to='/mes_patients'> Mes patients </router-link>
+            <router-link class="btn-13 custom-btn-1 nav-link" v-if="(user_patient.id) || (user_medecin.id)"  to='/profil'> Mon profil </router-link>
+            <router-link class="btn-13 custom-btn-1 nav-link" v-if="!(user_patient.id) && !(user_medecin.id)"  to='/register'> S'inscrire </router-link>
+            <router-link class="nav-link btn-13 custom-btn-1 " v-if="(user_patient.id) || (user_medecin.id)" to='/deconnexion'>Déconnexion</router-link>
+            <router-link class="btn-13 custom-btn-1 nav-link" v-if="!(user_patient.id) && !(user_medecin.id)"  to='/login'>Se connecter </router-link>
+          </div>
+        </div>
+        <main>
+          <router-view
+            :user_patient="user_patient"
+            :user_medecin="user_medecin"
+            :login="login"
+            :medecinlogin="medecinLogin"
+            :questionnaires="questionnaires"
+            :l_symptomes="l_symptomes"
+            :les_medecins="liste_medecins"
+            :les_actus="liste_actualite"
+            :les_spe="liste_specialites"
+            :panier_symptomes="panier_symptomes"
+            :m_bdd="liste_medecins_bdd"
+            :p_bdd="liste_patients_bdd"
+            :rdv_bdd="demande_de_rdv_med"
+            :rdv_to_p_bdd="demande_de_rdv_med_to_p"
+            :r_q="reponses_questions"
+            :all_repsonses="toutes_les_reponses_bdd"
+            :rdv_symptome="rdv_symptome"
+
+            @send_response_ques="send_re_q"
+            @reset_reponses_of_q="reset_reponses"
+            @add_reponse_of_q="add_reponse_of_q"
+            @add-to-rdv-s="add_to_rdv_s"
+            @refuser_rdv_from_m="refuser_rdv_from_m"
+            @accepter_rdv_from_m="accepter_rdv_from_m"
+            @refuser_rdv="refuser_rdv"
+            @accepter_rdv="accepter_rdv"
+            @add-to-panier-symptomes="add_to_panier_symptomes"
+            @remove-from-panier-s="removeFromPanier_symptomes"
+
+            @prendre_rendez_vous_m_to_p="prendre_rdv_m_to_p"
+
+            @prendre_rendez_vous="prendre_rdv"
+            @register_patient="register_patient"
+            @register_medecin="register_medecin"
+            @login="login"
+            @medecin_login="medecinLogin"
+            @logout="logout"
+            @update-profile-patient="updateProfile_patient"
+            @update-profile-medecin="updateProfile_medecin"
+          ></router-view>
+        </main>
+      </div>
+      <footer class="container-fluid text-align-center taille_1">
+        AVERTISSEMENT : SANT'EFREI © est destiné faciliter votre prise en charge médicale.
+        Les résultats fournis ne peuvent en aucun cas remplacer une consultation chez un médecin et ne constituent pas un diagnostic. <br>
+        Equipe : <strong>Merouane</strong>, <strong>Landry</strong>, <strong>Gaowei</strong>, <strong>Camélia</strong>, <strong>Lihao</strong>
+      </footer>
+      <script src="/vue-application.js"></script>
+    </body>
+</html>
